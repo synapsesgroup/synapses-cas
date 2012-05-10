@@ -1,19 +1,20 @@
-# RubyCAS-Server ![http://stillmaintained.com/rubycas/rubycas-server](http://stillmaintained.com/rubycas/rubycas-server.png)
+# Synapses RubyCAS-Server
 
 ## Copyright
 
-Portions contributed by Matt Zukowski are copyright (c) 2011 Urbacon Ltd.
+Forked From RubyCAS-Server, by Matt Zukowski are copyright (c) 2011 Urbacon Ltd.
 Other portions are copyright of their respective authors.
 
 ## Authors
 
-See http://github.com/gunark/rubycas-server/commits/
+* Tiago Machado (tiago@synapses.com.br)
+* João Lucas (joaolucas@synapses.com.br
 
-## Installation
+## Differences between Synapses CAS and the original RubyCAS
 
-See http://code.google.com/p/rubycas-server
+[0001] Changed the location of translations path at "localization.rb
 
 ## License
 
-RubyCAS-Server is licensed for use under the terms of the MIT License.
+Synapses RubyCAS-Server is licensed for use under the terms of the MIT License.
 See the LICENSE file bundled with the official RubyCAS-Server distribution for details.
