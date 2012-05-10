@@ -11,6 +11,7 @@ pkg
 ssl
 custom/*
 .DS_Store
+/.idea/
 /nbproject
 .irbrc_history
 resources/dev
