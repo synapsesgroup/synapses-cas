@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubycas-server (1.1.0)
+    synapses-cas (0.1.0)
       activerecord (>= 2.3.12, < 3.1)
       activesupport (>= 2.3.12, < 3.1)
       crypt-isaac (~> 0.9.1)
@@ -92,5 +92,5 @@ DEPENDENCIES
   rake (= 0.8.7)
   rspec
   rspec-core
-  rubycas-server!
   sqlite3 (~> 1.3.1)
+  synapses-cas!

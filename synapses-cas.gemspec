@@ -1,9 +1,9 @@
 $gemspec = Gem::Specification.new do |s|
-  s.name     = 'rubycas-server'
-  s.version  = '1.1.0'
-  s.authors  = ["Matt Zukowski"]
-  s.email    = ["matt@zukowski.ca"]
-  s.homepage = 'https://github.com/rubycas/rubycas-server'
+  s.name     = 'synapses-cas'
+  s.version  = '0.1.0'
+  s.authors  = ["Synapses Group"]
+  s.email    = ["tiago@synapses.com.br"]
+  s.homepage = 'https://github.com/synapsesgroup/synapses-cas'
   s.platform = Gem::Platform::RUBY
   s.summary  = %q{Provides single sign-on authentication for web applications using the CAS protocol.}
   s.description  = %q{Provides single sign-on authentication for web applications using the CAS protocol.}
@@ -17,7 +17,7 @@ $gemspec = Gem::Specification.new do |s|
 
   s.test_files = `git ls-files -- spec`.split("\n")
 
-  s.executables = ["rubycas-server"]
+  s.executables = ["synapses-cas"]
   s.bindir = "bin"
   s.require_path = "lib"
 

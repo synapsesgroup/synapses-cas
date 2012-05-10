@@ -13,7 +13,7 @@ module CASServer
     elsif !(c_file = File.dirname(__FILE__) + "/../../config.yml").nil? && File.exist?(c_file)
       CONFIG_FILE = c_file
     else
-      CONFIG_FILE = "/etc/rubycas-server/config.yml"
+      CONFIG_FILE = "/etc/synapses-cas/config.yml"
     end
     
     include CASServer::CAS # CAS protocol helpers
@@ -63,7 +63,7 @@ module CASServer
       handler      = detect_rack_handler
       handler_name = handler.name.gsub(/.*::/, '')
       
-      puts "== RubyCAS-Server is starting up " +
+      puts "== Synapses-CAS Server is starting up " +
         "on port #{config[:port] || port} for #{environment} with backup from #{handler_name}" unless handler_name =~/cgi/i
         
       begin
@@ -84,7 +84,7 @@ module CASServer
     def self.quit!(server, handler_name)
       ## Use thins' hard #stop! if available, otherwise just #stop
       server.respond_to?(:stop!) ? server.stop! : server.stop
-      puts "\n== RubyCAS-Server is shutting down" unless handler_name =~/cgi/i
+      puts "\n== Synapses-CAS Server is shutting down" unless handler_name =~/cgi/i
     end
     
     def self.print_cli_message(msg, type = :info)
