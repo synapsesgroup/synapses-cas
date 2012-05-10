@@ -9,7 +9,6 @@ $:.unshift File.dirname(__FILE__) + "/../lib"
 
 if ARGV.join.match('--debugger')
   require 'ruby-debug'
-  puts
   puts "=> Debugger Enabled"
 end
 
@@ -20,7 +19,7 @@ if ARGV.join.match('-c')
     puts
     puts "=> Using custom config file #{ENV['CONFIG_FILE'].inspect}"
   else
-    $stderr.puts("To specify a custom config file use `rubycas-server -c path/to/config_file_name.yml`.")
+    $stderr.puts("To specify a custom config file use `synapses-cas -c path/to/config_file_name.yml`.")
     exit
   end
 end

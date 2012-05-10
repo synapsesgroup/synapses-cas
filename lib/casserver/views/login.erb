@@ -1,30 +1,39 @@
 <%# coding: UTF-8 -%>
-<table id="login-box">
-  <tr>
-    <td colspan="2">
-      <div id="headline-container">
-        <strong><%= escape_html @organization %></strong>
-        <%= t.label.central_login_title %>
+<div class="container">
+  <div class="content">
+    <div class="row">
+      <div class="login-form">
+        <div style="padding-bottom:15px;">
+        <img id="logo" src="<%= escape_html @uri_path %>/themes/<%= @theme %>/img/logo.png"/>
+        </div>
+        <% if @message %>
+        <div class="alert alert-<%= escape_html @message[:type] %>">
+          <button class="close" data-dismiss="alert">×</button>
+          <%= escape_html @message[:message] %>
+        </div>
+        <% end %>
+        <form method="post" action="<%= @form_action || "login" %>" id="login-form"
+              onsubmit="submitbutton = document.getElementById('login-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;">
+          <fieldset>
+            <div class="clearfix">
+              <input type="text" id="username" name="username"  tabindex="1" accesskey="u"  placeholder="<%= t.label.username %>"/>
+            </div>
+            <div class="clearfix">
+              <input type="password" id="password" name="password" size="32" tabindex="2" accesskey="p" autocomplete="off" placeholder="<%= t.label.password %>" />
+            </div>
+            <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
+            <input type="hidden" id="service" name="service" value="<%= escape_html @service %>" />
+            <input type="submit" accesskey="l" value="<%= t.button.login %>" tabindex="4" id="login-submit" class="btn btn-primary"/>
+          </fieldset>
+        </form>
       </div>
-    </td>
-  </tr>
-
-  <% if @message %>
-  <tr>
-    <td colspan="2" id="messagebox-container">
-      <div class="messagebox <%= escape_html @message[:type] %>">
-        <%= escape_html @message[:message] %>
+      <div style="text-align:center">
+        <%= @infoline %><br/>
+        <% r18n.available_locales.each do |locale| %>
+            <a href="<%= @uri_path %>/login?locale=<%= locale.code%>"><img src="<%= escape_html @uri_path %>/flags/<%= locale.code %>.png"/></a>
+        <% end %>
       </div>
-    </td>
-  </tr>
-  <% end %>
-
-  <tr>
-    <td id="logo-container">
-      <img id="logo" src="<%= escape_html @uri_path %>/themes/<%= @theme %>/logo.png" />
-    </td>
-    <td id="login-form-container">
-      <%= erb(:_login_form, :layout => false) %>
-    </td>
-  </tr>
-</table>
+    </div>
+  </div>
+</div>
+<!-- /container -->

@@ -288,6 +288,8 @@ module CASServer
       init_authenticators!
     end
 
+    enable :sessions
+
     before do
       content_type :html, 'charset' => 'utf-8'
       @theme = settings.config[:theme]
@@ -295,11 +297,16 @@ module CASServer
       @uri_path = settings.config[:uri_path]
       @infoline = settings.config[:infoline]
       @custom_views = settings.config[:custom_views]
+      @default_locale = settings.config[:default_locale]
       @template_engine = settings.config[:template_engine] || :erb
       if @template_engine != :erb
         require @template_engine
         @template_engine = @template_engine.to_sym
       end
+
+      # Synapses CAS 0.1.1
+      session[:locale] = params[:locale] || session[:locale] ||  @default_locale
+
     end
 
     # The #.#.# comments (e.g. "2.1.3") refer to section numbers in the CAS protocol spec
@@ -326,7 +333,7 @@ module CASServer
       end
 
       if tgt and !tgt_error
-        @message = {:type => 'notice',
+        @message = {:type => 'info',
           :message => t.notice.logged_in_as(tgt.username)}
       elsif tgt_error
         $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
@@ -335,7 +342,7 @@ module CASServer
       end
 
       if params['redirection_loop_intercepted']
-        @message = {:type => 'mistake',
+        @message = {:type => 'error',
           :message => t.error.unable_to_authenticate}
       end
 
@@ -357,14 +364,14 @@ module CASServer
           end
         elsif @gateway
             $LOG.error("This is a gateway request but no service parameter was given!")
-            @message = {:type => 'mistake',
+            @message = {:type => 'error',
               :message => t.error.no_service_parameter_given}
         else
           $LOG.info("Proceeding with CAS login without a target service.")
         end
       rescue URI::InvalidURIError
         $LOG.error("The service '#{@service}' is not a valid URI!")
-        @message = {:type => 'mistake',
+        @message = {:type => 'error',
           :message => t.error.invalid_target_service}
       end
 
@@ -423,7 +430,7 @@ module CASServer
       end
 
       if error = validate_login_ticket(@lt)
-        @message = {:type => 'mistake', :message => error}
+        @message = {:type => 'error', :message => error}
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
         status 500
@@ -475,7 +482,7 @@ module CASServer
 
           if @service.blank?
             $LOG.info("Successfully authenticated user '#{@username}' at '#{tgt.client_hostname}'. No service param was given, so we will not redirect.")
-            @message = {:type => 'confirmation', :message => t.notice.success_logged_in}
+            @message = {:type => 'success', :message => t.notice.success_logged_in}
           else
             @st = generate_service_ticket(@service, @username, tgt)
 
@@ -487,21 +494,21 @@ module CASServer
             rescue URI::InvalidURIError
               $LOG.error("The service '#{@service}' is not a valid URI!")
               @message = {
-                :type => 'mistake',
+                :type => 'error',
                 :message => t.error.invalid_target_service
               }
             end
           end
         else
           $LOG.warn("Invalid credentials given for user '#{@username}'")
-          @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
+          @message = {:type => 'error', :message => t.error.incorrect_username_or_password}
           status 401
         end
       rescue CASServer::AuthenticatorError => e
         $LOG.error(e)
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
-        @message = {:type => 'mistake', :message => e.to_s}
+        @message = {:type => 'error', :message => e.to_s}
         status 401
       end
 
@@ -560,7 +567,7 @@ module CASServer
         $LOG.warn("User tried to log out without a valid ticket-granting ticket.")
       end
 
-      @message = {:type => 'confirmation', :message => t.notice.success_logged_out}
+      @message = {:type => 'success', :message => t.notice.success_logged_out}
 
       @message[:message] += t.notice.click_to_continue if @continue_url
 

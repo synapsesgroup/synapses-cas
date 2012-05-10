@@ -11,16 +11,16 @@ error:
   no_service_parameter_given: "O servidor não pode completar a solicitação porque não foi enviado o paramêtro do serviço."
 
 notice:
-  logged_in_as: "Você está logado como '%1'. Se este não for você, Por favor, faça o login a baixo."
+  logged_in_as: "Você está logado como '%1'."
   click_to_continue: "Por favor, clique no seguinte link para continuar:"
   success_logged_out: "Você saiu do sistema com sucesso."
   success_logged_in: "Login efetuado com sucesso."
   please_wait: "Aguarde ..."
 
 label:
-  username: "Usuário"
+  username: "Email"
   password: "Senha"
   central_login_title: "Central de Autenticação"
 
 button:
-  login: "ENTRAR"
+  login: "Entrar"
