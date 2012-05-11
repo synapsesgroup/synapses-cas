@@ -1,4 +1,4 @@
 require 'bundler'
 namespace :bundler do
-  Bundler::GemHelper.install_tasks(:name => 'rubycas-server')
+  Bundler::GemHelper.install_tasks(:name => 'synapses-cas')
 end

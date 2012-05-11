@@ -23,7 +23,7 @@
 # Description:    Start the RubyCAS-Server
 ### END INIT INFO
 
-CASSERVER_CTL=rubycas-server-ctl
+CASSERVER_CTL=synapses-cas-ctl
 
 # Gracefully exit if the controller is missing.
 which $CASSERVER_CTL > /dev/null || exit 0

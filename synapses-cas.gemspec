@@ -12,7 +12,7 @@ $gemspec = Gem::Specification.new do |s|
     "CHANGELOG", "LICENSE", "README.md", "Rakefile", "setup.rb",
     "bin/*", "db/**/*", "lib/**/*.rb", "public/**/*", "locales/**/*", "resources/*.*",
     "config.ru", "config/**/*", "tasks/**/*.rake", "vendor/**/*", "script/*", "lib/**/*.erb", "lib/**/*.builder",
-    "Gemfile", "rubycas-server.gemspec"
+    "Gemfile", "synapses-cas.gemspec"
   ].map{|p| Dir[p]}.flatten
 
   s.test_files = `git ls-files -- spec`.split("\n")
@@ -24,10 +24,7 @@ $gemspec = Gem::Specification.new do |s|
   s.extra_rdoc_files = ["CHANGELOG", "LICENSE", "README.md"]
 
   s.has_rdoc = true
-  s.post_install_message = "
-For more information on RubyCAS-Server, see http://code.google.com/p/rubycas-server
-
-"
+  s.post_install_message = "For more information on RubyCAS-Server, see http://code.google.com/p/rubycas-server"
 
   s.add_dependency("activerecord", ">= 2.3.12", "< 3.1")
   s.add_dependency("activesupport", ">= 2.3.12", "< 3.1")

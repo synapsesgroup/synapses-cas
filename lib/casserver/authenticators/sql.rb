@@ -67,7 +67,7 @@ class CASServer::Authenticators::SQL < CASServer::Authenticators::Base
 
     @user_model = const_get(user_model_name)
     @user_model.establish_connection(options[:database])
-    @user_model.set_table_name(options[:user_table] || 'users')
+    @user_model.table_name = options[:user_table] || 'users'
     @user_model.inheritance_column = 'no_inheritance_column' if options[:ignore_type_column]
   end
 
