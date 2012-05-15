@@ -1,6 +1,6 @@
 $gemspec = Gem::Specification.new do |s|
   s.name     = 'synapses-cas'
-  s.version  = '0.1.1'
+  s.version  = '0.1.2'
   s.authors  = ["Synapses Group"]
   s.email    = ["tiago@synapses.com.br"]
   s.homepage = 'https://github.com/synapsesgroup/synapses-cas'
