@@ -298,11 +298,15 @@ module CASServer
       @infoline = settings.config[:infoline]
       @custom_views = settings.config[:custom_views]
       @default_locale = settings.config[:default_locale]
+      @password_recovery_url = settings.config[:password_recovery_url]
       @template_engine = settings.config[:template_engine] || :erb
       if @template_engine != :erb
         require @template_engine
         @template_engine = @template_engine.to_sym
       end
+
+      # Synapses CAS 0.1.2 - Thanks to https://github.com/dyson/rubycas-server
+      @service_whitelist = CASServer::Utils::initialize_service_whitelist(settings.config[:service_whitelist])
 
       # Synapses CAS 0.1.1
       session[:locale] = params[:locale] || session[:locale] ||  @default_locale
@@ -324,7 +328,10 @@ module CASServer
       headers['Expires'] = (Time.now - 1.year).rfc2822
 
       # optional params
-      @service = clean_service_url(params['service'])
+      #@service = clean_service_url(params['service']) || settings.config[:default_service]
+
+      # Synapses CAS 0.1.2 - Whitelist
+      @service = CASServer::Utils::validate_service(clean_service_url(params['service']), @service_whitelist) || settings.config[:default_service]
       @renew = params['renew']
       @gateway = params['gateway'] == 'true' || params['gateway'] == '1'
 
@@ -414,7 +421,9 @@ module CASServer
       Utils::log_controller_action(self.class, params)
       
       # 2.2.1 (optional)
-      @service = clean_service_url(params['service'])
+
+      # Synapses CAS 0.1.2
+      @service = CASServer::Utils::validate_service(clean_service_url(params['service']), @service_whitelist) || settings.config[:default_service]
 
       # 2.2.2 (required)
       @username = params['username']
@@ -530,7 +539,10 @@ module CASServer
       # "logout" page, we take the user back to the login page with a "you have been logged out"
       # message, allowing for an opportunity to immediately log back in. This makes it
       # easier for the user to log out and log in as someone else.
-      @service = clean_service_url(params['service'] || params['destination'])
+
+      # Synapses CAS 0.1.2
+      @service = CASServer::Utils::validate_service(clean_service_url(params['service']), @service_whitelist)
+      @destination = params['destination']
       @continue_url = params['url']
 
       @gateway = params['gateway'] == 'true' || params['gateway'] == '1'
@@ -573,7 +585,10 @@ module CASServer
 
       @lt = generate_login_ticket
 
-      if @gateway && @service
+      # Synapses CAS 0.1.2
+      if @gateway && @destination
+        redirect @destination, 303
+      elsif @gateway && @service
         redirect @service, 303
       elsif @continue_url
         render @template_engine, :logout
@@ -621,7 +636,10 @@ module CASServer
 			CASServer::Utils::log_controller_action(self.class, params)
 			
 			# required
-			@service = clean_service_url(params['service'])
+			#@service = clean_service_url(params['service'])
+      # Synapses CAS 0.1.2
+      @service = CASServer::Utils::validate_service(clean_service_url(params['service']), @service_whitelist)
+
 			@ticket = params['ticket']
 			# optional
 			@renew = params['renew']
@@ -644,7 +662,9 @@ module CASServer
 			CASServer::Utils::log_controller_action(self.class, params)
 
 			# required
-			@service = clean_service_url(params['service'])
+			#@service = clean_service_url(params['service'])
+      # Synapses CAS 0.1.2
+      @service = CASServer::Utils::validate_service(clean_service_url(params['service']), @service_whitelist)
 			@ticket = params['ticket']
 			# optional
 			@pgt_url = params['pgtUrl']
@@ -675,7 +695,9 @@ module CASServer
       CASServer::Utils::log_controller_action(self.class, params)
 
       # required
-      @service = clean_service_url(params['service'])
+      #@service = clean_service_url(params['service'])
+      # Synapses CAS 0.1.2
+      @service = CASServer::Utils::validate_service(clean_service_url(params['service']), @service_whitelist)
       @ticket = params['ticket']
       # optional
       @pgt_url = params['pgtUrl']

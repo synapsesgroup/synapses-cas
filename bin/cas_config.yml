@@ -483,6 +483,8 @@ organization: Synapses
 # if you prefer to have no extra text shown at the bottom of the login box.
 infoline: Powered by <a href="http://www.synapses.com.br/">Synapses</a>
 
+password_recovery_url: http://localhost:3000/users/password_recovery
+
 # Custom views directory. If set, this will be used instead of 'lib/casserver/views'.
 #custom_views: /path/to/custom/views
 
@@ -563,8 +565,13 @@ db_log:
 # is planned for a future release.
 
 enable_single_sign_out: true
-
-
+##### SERVICES #################################################################
+# You can restrict what services can authenticate against the CAS server.
+# By default any service can authenticate and a blank white list will also
+# allow any service to authenticate. Services are listed on a single line
+# separated by a comma.
+service_whitelist: http://localhost:3000,http://localhost:3001,http://localhost:3002
+#default_service: http://localhost:3000
 ##### OTHER ####################################################################
 
 # You can set various ticket expiry times (specify the value in seconds).

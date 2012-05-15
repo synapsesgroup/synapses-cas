@@ -4,7 +4,6 @@ config.yml
 *.sqlite3
 *.swp
 *~
-*.pidaproject
 *.log
 *.mo
 pkg
@@ -17,3 +16,4 @@ custom/*
 resources/dev
 .rvmrc
 .bundle
+/*.gem

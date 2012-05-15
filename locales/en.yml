@@ -24,3 +24,4 @@ label:
 
 button:
   login: "Login"
+  password_recovery: "Forgot your password?"

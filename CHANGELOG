@@ -1,3 +1,24 @@
+=== 0.1.2 :: 2012-05-15
+
+* Button for password recovery has been added in login page.
+
+    The password recovery url must be defined in configuration file.
+    password_recovery_url: http://localhost:3000/users/password_recovery
+
+* Whitelist for ensure that only allowed clients can connect to cas server
+
+    To use this feature, you have to set the "service_whitelist" in your config file:
+    service_whitelist: http://localhost:3000,http://localhost:3001,http://localhost:3002
+    A config file example is available on /bin/cas_config.yml
+
+=== 0.1.1 :: 2012-05-11
+
+* Configuration default_locale parameter is used now.
+* You can switch between locales clicking on flags at login page. The locale is passed by parameters (?locale=pt) in URL.
+* The selected locale is saved in current session.
+* To start the cas server, you must type "synapses-cas" instead of "rubycas-server"
+* Default theme has been completely rewrite to use twitter bootstrap, including flash messages (error, success and info).
+
 === 0.1.0 :: 2012-05-10
 
 * First public release.
