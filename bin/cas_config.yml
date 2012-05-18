@@ -239,7 +239,7 @@ authenticator:
   username_column: email
 #  password_column: password_hash
   encrypt_function: 'user.password_hash == Digest::SHA256.hexdigest("#{@password}#{user.password_salt}") && (user.status == "A")'
-  extra_attributes: name, default_locale, must_change_password
+  extra_attributes: name, default_locale, must_change_password, linkedin_profile
 #
 # When replying to a CAS client's validation request, the server will normally
 # provide the client with the authenticated user's username. However it is
