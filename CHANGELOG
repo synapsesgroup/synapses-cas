@@ -1,4 +1,8 @@
-=== 0.1.3 :: 2012-05-20 
+=== 0.1.4 :: 2012-05-20
+
+* Gemspec updated to allow version 3.2.1 of "activerecord" and "activesupport"
+
+=== 0.1.3 :: 2012-05-20
 
 * Allows nullable extra attributes.
 
