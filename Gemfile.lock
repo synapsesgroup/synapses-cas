@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    synapses-cas (0.1.4)
+    synapses-cas (0.1.5)
       activerecord (>= 2.3.12, <= 3.2.1)
       activesupport (>= 2.3.12, <= 3.2.1)
       bcrypt-ruby
