@@ -1,11 +1,13 @@
 PATH
   remote: .
   specs:
-    synapses-cas (0.1.5)
-      activerecord (>= 2.3.12, <= 3.2.1)
-      activesupport (>= 2.3.12, <= 3.2.1)
+    synapses-cas (0.1.6)
+      activerecord (>= 2.3.12, < 3.1)
+      activeresource (>= 2.3.12, < 3.1)
+      activesupport (>= 2.3.12, < 3.1)
       bcrypt-ruby
       crypt-isaac (~> 0.9.1)
+      net-ldap (~> 0.1.1)
       pg
       sinatra (~> 1.0)
       sinatra-r18n
@@ -89,9 +91,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeresource (>= 2.3.12, <= 3.2.1)
   capybara (= 1.1.2)
-  net-ldap (~> 0.1.1)
   rack-test
   rake (= 0.8.7)
   rspec

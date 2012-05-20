@@ -1,6 +1,6 @@
 $gemspec = Gem::Specification.new do |s|
   s.name     = 'synapses-cas'
-  s.version  = '0.1.5'
+  s.version  = '0.1.6'
   s.authors  = ["Synapses Group"]
   s.email    = ["tiago@synapses.com.br"]
   s.homepage = 'https://github.com/synapsesgroup/synapses-cas'
@@ -26,8 +26,8 @@ $gemspec = Gem::Specification.new do |s|
   s.has_rdoc = true
   s.post_install_message = "For more information on RubyCAS-Server, see http://code.google.com/p/rubycas-server"
 
-  s.add_dependency("activerecord", ">= 2.3.12", "<= 3.2.1")
-  s.add_dependency("activesupport", ">= 2.3.12", "<= 3.2.1")
+  s.add_dependency("activerecord", ">= 2.3.12", "< 3.1")
+  s.add_dependency("activesupport", ">= 2.3.12", "< 3.1")
   s.add_dependency("sinatra", "~> 1.0")
   s.add_dependency("sinatra-r18n")
   s.add_dependency("crypt-isaac", "~> 0.9.1")
@@ -45,8 +45,8 @@ $gemspec = Gem::Specification.new do |s|
 
 
   # for authenticator specs
-  s.add_development_dependency("net-ldap", "~> 0.1.1")
-  s.add_development_dependency("activeresource", ">= 2.3.12", "<= 3.2.1")
+  s.add_dependency("net-ldap", "~> 0.1.1")
+  s.add_dependency("activeresource", ">= 2.3.12", "< 3.1")
 
   s.rdoc_options = [
     '--quiet', '--title', 'RubyCAS-Server Documentation', '--opname',
