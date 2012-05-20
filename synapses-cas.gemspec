@@ -46,7 +46,7 @@ $gemspec = Gem::Specification.new do |s|
 
   # for authenticator specs
   s.add_development_dependency("net-ldap", "~> 0.1.1")
-  s.add_development_dependency("activeresource", ">= 2.3.12", "< 3.1")
+  s.add_development_dependency("activeresource", ">= 2.3.12", "<= 3.2.1")
 
   s.rdoc_options = [
     '--quiet', '--title', 'RubyCAS-Server Documentation', '--opname',
