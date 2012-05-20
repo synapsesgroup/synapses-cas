@@ -1,3 +1,11 @@
+=== 0.1.3 :: 2012-05-20 
+
+* Allows nullable extra attributes.
+
+    The oficial version of RubyCAS doesn't work if a user tries to login in with an
+    account that contains some null extra attributes.
+
+
 === 0.1.2 :: 2012-05-15
 
 * Button for password recovery has been added in login page.
