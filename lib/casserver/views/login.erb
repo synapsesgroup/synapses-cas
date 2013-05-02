@@ -3,8 +3,8 @@
   <div class="content">
     <div class="row">
       <div class="login-form">
-        <div style="padding-bottom:15px;">
-        <img id="logo" src="<%= escape_html @uri_path %>/themes/<%= @theme %>/img/logo.png"/>
+        <div style="padding-bottom:15px; margin-left:-20px">
+        <img id="logo" src="<%= escape_html @uri_path %>/themes/<%= @theme %>/img/logo.jpg"/>
         </div>
         <% if @message %>
         <div class="alert alert-<%= escape_html @message[:type] %>">
@@ -19,7 +19,7 @@
               <input type="text" id="username" name="username"  tabindex="1" accesskey="u"  placeholder="<%= t.label.username %>"/>
             </div>
             <div class="clearfix">
-              <input type="password" id="password" name="password" size="32" tabindex="2" accesskey="p" autocomplete="off" placeholder="<%= t.label.password %>" />
+              <input type="password" id="password" name="password" size="32" tabindex="2" accesskey="p" autocomplete="off" placeholder="<%= t.label.password %>"/>
             </div>
             <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
             <input type="hidden" id="service" name="service" value="<%= escape_html @service %>" />
