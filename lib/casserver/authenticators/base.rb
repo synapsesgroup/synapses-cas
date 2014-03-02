@@ -1,9 +1,12 @@
+require 'active_support'
+require 'active_support/core_ext'
+
 module CASServer
   module Authenticators
     class Base
       attr_accessor :options
       attr_reader :username # make this accessible so that we can pick up any
-                            # transformations done within the authenticator
+      # transformations done within the authenticator
 
       # This is called at server startup.
       # Any class-wide initializiation for the authenticator should be done here.
@@ -35,7 +38,7 @@ module CASServer
       end
 
       def extra_attributes
-        @extra_attributes
+        @extra_attributes.stringify_keys
       end
 
       protected

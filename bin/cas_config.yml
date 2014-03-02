@@ -161,7 +161,7 @@ port: 443
 
 database:
   adapter: postgresql
-  database: synapses_ws_demo
+  database: synapses_accounts_production
   username: postgres
   password: postgres
   host: localhost
@@ -231,7 +231,7 @@ authenticator:
   class: CASServer::Authenticators::SQLEncrypted
   database:
     adapter: postgresql
-    database: synapses_ws_demo
+    database: synapses_accounts_production
     username: postgres
     password: postgres
     host: localhost 
@@ -570,7 +570,7 @@ enable_single_sign_out: true
 # By default any service can authenticate and a blank white list will also
 # allow any service to authenticate. Services are listed on a single line
 # separated by a comma.
-service_whitelist: http://localhost:3000,http://localhost:3001,http://localhost:3002,http://192.168.1.194:3000,http://192.168.1.194:3001,http://192.168.1.194:3002
+service_whitelist: http://localhost:3000,http://localhost:3001,http://localhost:3002
 #default_service: http://localhost:3000
 ##### OTHER ####################################################################
 

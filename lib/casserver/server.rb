@@ -1,13 +1,10 @@
-require 'sinatra/base'
-require 'casserver/localization'
 require 'casserver/utils'
 require 'casserver/cas'
-
-require 'logger'
-$LOG ||= Logger.new(STDOUT)
+require 'casserver/base'
 
 module CASServer
-  class Server < Sinatra::Base
+  class Server < CASServer::Base
+
     if ENV['CONFIG_FILE']
       CONFIG_FILE = ENV['CONFIG_FILE']
     elsif !(c_file = File.dirname(__FILE__) + "/../../config.yml").nil? && File.exist?(c_file)
@@ -17,7 +14,6 @@ module CASServer
     end
     
     include CASServer::CAS # CAS protocol helpers
-    include Localization
 
     # Use :public_folder for Sinatra >= 1.3, and :public for older versions.
     def self.use_public_folder?
@@ -141,18 +137,18 @@ module CASServer
       set :server, config[:server] || 'webrick'
     end
     
-    def self.reconfigure!(config)
-      config.each do |key, val|
-        self.config[key] = val
-      end
-      init_database!
-      init_logger!
-      init_authenticators!
-    end
+    #def self.reconfigure!(config)
+    #  config.each do |key, val|
+    #    self.config[key] = val
+    #  end
+    #  init_database!
+    #  init_logger!
+    #  init_authenticators!
+    #end
 
     def self.handler_options
       handler_options = {
-        :Host => bind || config[:bind_address],
+        :Host => config[:bind_address] || '0.0.0.0',
         :Port => config[:port] || 443
       }
 
@@ -561,10 +557,9 @@ module CASServer
             $LOG.debug "Deleting #{st.class.name.demodulize} #{st.ticket.inspect} for service #{st.service}."
             st.destroy
           end
-
           pgts = CASServer::Model::ProxyGrantingTicket.find(:all,
-            :conditions => [CASServer::Model::Base.connection.quote_table_name(CASServer::Model::ServiceTicket.table_name)+".username = ?", tgt.username],
-            :include => :service_ticket)
+                                                            :conditions => [CASServer::Model::ServiceTicket.quoted_table_name+".username = ?", tgt.username],
+                                                            :include => :service_ticket)
           pgts.each do |pgt|
             $LOG.debug("Deleting Proxy-Granting Ticket '#{pgt}' for user '#{pgt.service_ticket.username}'")
             pgt.destroy
@@ -783,5 +778,6 @@ module CASServer
       raise unless @custom_views
       super engine, data, options, views
     end
+
   end
 end

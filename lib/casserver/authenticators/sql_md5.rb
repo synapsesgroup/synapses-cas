@@ -11,9 +11,9 @@ require 'digest/md5'
 class CASServer::Authenticators::SQLMd5 < CASServer::Authenticators::SQL
 
   protected
-    def read_standard_credentials(credentials)
-      super
-      @password = Digest::MD5.hexdigest(@password)
-    end
+  def read_standard_credentials(credentials)
+    super
+    @password = Digest::MD5.hexdigest(@password)
+  end
 
 end

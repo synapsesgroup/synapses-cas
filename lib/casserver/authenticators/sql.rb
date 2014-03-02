@@ -1,5 +1,3 @@
-require 'casserver/authenticators/base'
-
 begin
   require 'active_record'
 rescue LoadError
@@ -67,8 +65,18 @@ class CASServer::Authenticators::SQL < CASServer::Authenticators::Base
 
     @user_model = const_get(user_model_name)
     @user_model.establish_connection(options[:database])
-    @user_model.table_name = options[:user_table] || 'users'
+    if ActiveRecord::VERSION::STRING >= '3.2'
+      @user_model.table_name = (options[:user_table] || 'users')
+    else
+      @user_model.set_table_name(options[:user_table] || 'users')
+    end
     @user_model.inheritance_column = 'no_inheritance_column' if options[:ignore_type_column]
+    begin
+      @user_model.connection
+    rescue => e
+      $LOG.debug e
+      raise "SQL Authenticator can not connect to database"
+    end
   end
 
   def self.user_model
@@ -79,23 +87,17 @@ class CASServer::Authenticators::SQL < CASServer::Authenticators::Base
     read_standard_credentials(credentials)
     raise_if_not_configured
 
-    user_model = self.class.user_model
-
-    username_column = @options[:username_column] || 'username'
-    password_column = @options[:password_column] || 'password'
-    
-    $LOG.debug "#{self.class}: [#{user_model}] " + "Connection pool size: #{user_model.connection_pool.instance_variable_get(:@checked_out).length}/#{user_model.connection_pool.instance_variable_get(:@connections).length}"
-    results = user_model.find(:all, :conditions => ["#{username_column} = ? AND #{password_column} = ?", @username, @password])
+    log_connection_pool_size
     user_model.connection_pool.checkin(user_model.connection)
-       
-    if results.size > 0
-      $LOG.warn("#{self.class}: Multiple matches found for user #{@username.inspect}") if results.size > 1
-      
+
+    if matching_users.size > 0
+      $LOG.warn("#{self.class}: Multiple matches found for user #{@username.inspect}") if matching_users.size > 1
+
       unless @options[:extra_attributes].blank?
-        if results.size > 1
+        if matching_users.size > 1
           $LOG.warn("#{self.class}: Unable to extract extra_attributes because multiple matches were found for #{@username.inspect}")
         else
-          user = results.first
+          user = matching_users.first
 
           extract_extra(user)
           log_extra
@@ -110,10 +112,22 @@ class CASServer::Authenticators::SQL < CASServer::Authenticators::Base
 
   protected
 
+  def user_model
+    self.class.user_model
+  end
+
+  def username_column
+    @options[:username_column] || 'username'
+  end
+
+  def password_column
+    @options[:password_column] || 'password'
+  end
+
   def raise_if_not_configured
     raise CASServer::AuthenticatorError.new(
-      "Cannot validate credentials because the authenticator hasn't yet been configured"
-    ) unless @options
+            "Cannot validate credentials because the authenticator hasn't yet been configured"
+          ) unless @options
   end
 
   def extract_extra user
@@ -129,5 +143,16 @@ class CASServer::Authenticators::SQL < CASServer::Authenticators::Base
     else
       $LOG.debug("#{self.class}: Read the following extra_attributes for user #{@username.inspect}: #{@extra_attributes.inspect}")
     end
+  end
+
+  def log_connection_pool_size
+    log_msg = "#{self.class}: [#{user_model}] "
+    log_msg += "Connection pool size: #{user_model.connection_pool.connections.length}"
+    log_msg += "/#{user_model.connection_pool.instance_variable_get(:@size)}"
+    $LOG.debug log_msg
+  end
+
+  def matching_users
+    user_model.find(:all, :conditions => ["#{username_column} = ? AND #{password_column} = ?", @username, @password])
   end
 end
